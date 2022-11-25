@@ -6,6 +6,9 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
+  "keywords": [
+    "element-ui"
+  ],
   "dependencies": {
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
@@ -13,7 +16,8 @@
     "vue": "^2.6.14",
     "vue-prevent-browser-back": "^1.0.5",
     "vue-router": "^3.5.1",
-    "vue-wechat-title": "^2.0.7"
+    "vue-wechat-title": "^2.0.7",
+    "element-ui": "2.15.8"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~5.0.0",

@@ -2,7 +2,7 @@ import axios from "axios";
 
 // 创建axios实例
 const instance = axios.create({
-    baseURL: "http://36.137.34.222:8041/",
+    baseURL: "http://localhost:18888/",
     // 设置相应的时间
     timeout: 20000,
 });

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import indexView from '../views/file/index.vue'
+import indexView from '../views/file'
 
 Vue.use(VueRouter)
 
@@ -10,15 +10,15 @@ const routes = [
     name: 'index',
     component: indexView,
     meta: {
-      title: '系统'
+      title: '文件管理系统'
     }
   },
   {
     path: '/stateShow',
     name: 'stateShow',
-    component: () => import('../views/file/index.vue'),
+    component: () => import('../views/file'),
     meta: {
-      title: '系统'
+      title: '文件管理系统'
     }
   }
 ]

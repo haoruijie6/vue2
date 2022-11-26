@@ -5,13 +5,22 @@
       :title="title"
       :visible.sync="dialogVisible"
       width="60%">
-    <div v-loading="loading">
-      <el-button style="float: right;margin-bottom: 10px" @click="upload">上传文件</el-button>
-      <el-table :data="dataList" style="height: 400px;" border>
+    <div>
+      <el-form style="margin-top: 20px" :model="queryParams" ref="queryParams" size="small" :inline="true">
+        <el-form-item label="文件名称">
+          <el-input placeholder="文件名称" v-model="queryParams.fileName"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-search" size="mini" @click="getList">搜索</el-button>
+          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        </el-form-item>
+      </el-form>
+      <el-button style="margin-bottom: 10px" @click="upload" type="primary" size="mini">上传文件</el-button>
+      <el-table :data="dataList" style="height: 400px;" border v-loading="loading">
         <el-table-column align="center" prop="fileName" label="文件名称"/>
         <el-table-column align="center" prop="size" label="文件大小">
           <template slot-scope="scope">
-            <div>{{scope.row.size + 'MB'}}</div>
+            <div>{{ scope.row.size + 'MB' }}</div>
           </template>
         </el-table-column>
         <el-table-column align="center" prop="type" label="文件类型"/>
@@ -24,12 +33,12 @@
           </template>
         </el-table-column>
       </el-table>
-<!--      <pagination-->
-<!--          :total="total"-->
-<!--          :page.sync="queryParams.pageNum"-->
-<!--          :limit.sync="queryParams.pageSize"-->
-<!--          @pagination="getList"-->
-<!--      />-->
+      <!--      <pagination-->
+      <!--          :total="total"-->
+      <!--          :page.sync="queryParams.pageNum"-->
+      <!--          :limit.sync="queryParams.pageSize"-->
+      <!--          @pagination="getList"-->
+      <!--      />-->
     </div>
     <addBatch ref="addBatch"/>
   </el-dialog>
@@ -38,36 +47,38 @@
 <script>
 import {getData} from "@/api/common";
 import addBatch from "./addBatch"
+
 export default {
   name: "fileList",
-  components:{
+  components: {
     addBatch
   },
-  data(){
-    return{
-      total:10,
-      dialogVisible:false,
-      loading : false,
+  data() {
+    return {
+      total: 10,
+      dialogVisible: false,
+      loading: false,
       queryParams:{
+        fileName:null,
         folderId:null,
         pageSize:10,
         pageNum:1,
       },
-      dataList:[],
-      title:null,
-      folderId:null,
+      dataList: [],
+      title: null,
+      folderId: null,
     }
   },
-  methods:{
+  methods: {
     //重命名
-    updateFloder(id,name) {
+    updateFloder(id, name) {
       this.folderShow = false
       this.$prompt('请输入文件名称', {
         inputValue: name,
         confirmButtonText: '确定',
         cancelButtonText: '取消',
       }).then(({value}) => {
-        getData("/file/rename/" + id + '/' + value ).then(res => {
+        getData("/file/rename/" + id + '/' + value).then(res => {
           if (res.code == 200) {
             this.$message({
               type: 'success',
@@ -81,9 +92,10 @@ export default {
             });
           }
         })
-      }).catch(() => {});
+      }).catch(() => {
+      });
     },
-    del(id){
+    del(id) {
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -106,25 +118,34 @@ export default {
       }).catch(() => {
       });
     },
-    open(id,folderName){
+    open(id, folderName) {
       this.title = folderName
       this.folderId = id
       this.queryParams.folderId = id
       this.dialogVisible = true
       this.getList()
     },
-    getList(){
+    getList() {
       this.loading = true
-      getData("/file/list",this.queryParams).then(res=>{
+      getData("/file/list", this.queryParams).then(res => {
         this.dataList = res.data
         this.loading = false
       })
     },
-    upload(){
+    upload() {
       this.$refs.addBatch.open(this.folderId);
     },
-    down(fileUrl){
+    down(fileUrl) {
       window.open(fileUrl, '_blank')
+    },
+    resetQuery(){
+      this.queryParams = {
+        fileName:null,
+        folderId:this.queryParams.folderId,
+        pageSize:10,
+        pageNum:1
+      }
+      this.getList()
     }
   }
 

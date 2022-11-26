@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+      v-if="dialogVisible"
       append-to-body
       :close-on-click-modal="false"
       title="上传文件"
@@ -25,7 +26,7 @@
       </el-upload>
       <div style="margin-top: 20px">
         <el-button icon="el-icon-upload2" type="success" @click="submit">提交</el-button>
-        <el-button @click="close">取消</el-button>
+        <el-button @click="close">关闭</el-button>
       </div>
     </div>
   </el-dialog>

@@ -15,7 +15,7 @@
           <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
-      <el-button style="margin-bottom: 10px" @click="upload" type="primary" size="mini">上传文件</el-button>
+      <el-button style="margin-bottom: 10px;float: right" @click="upload" type="primary" size="mini">上传文件</el-button>
       <el-table :data="dataList" style="height: 400px;" border v-loading="loading">
         <el-table-column align="center" prop="fileName" label="文件名称"/>
         <el-table-column align="center" prop="size" label="文件大小">
